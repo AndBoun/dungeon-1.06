@@ -52,15 +52,17 @@ class Dungeon
 {
 protected:
     std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT> grid;
-
+    std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT> nonTunnelingDistanceMap;
+    std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT> tunnelingDistanceMap;
+    
     std::vector<Room> rooms;
     std::vector<Stair> up_stairs;
     std::vector<Stair> down_stairs;
+    std::vector<NPC> npcs;
 
     PC pc;
-    // NPC npc
 
-    // std::vector<NPC> npcs;
+
 
 public:
     Dungeon();
@@ -71,7 +73,9 @@ public:
     const std::vector<Room>& getRooms () { return rooms; }
     const std::vector<Stair>& getUpStairs () { return up_stairs; }
     const std::vector<Stair>& getDownStairs () { return down_stairs; }
-
+    const std::vector<NPC>& getNPCs () { return npcs; }
+    const std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& getNonTunnelingDistanceMap() { return nonTunnelingDistanceMap; }
+    const std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& getTunnelingDistanceMap() { return tunnelingDistanceMap; }
     PC& getPC() { return pc; }
 
     // Modify Arrays
@@ -79,7 +83,9 @@ public:
     std::vector<Room>& modifyRooms () { return rooms; }
     std::vector<Stair>& modifyStairs () { return up_stairs; }
     std::vector<Stair>& modifyDownStairs () { return down_stairs; }
-
+    std::vector<NPC>& modifyNPCs () { return npcs; }
+    std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyNonTunnelingDistanceMap() { return nonTunnelingDistanceMap; }
+    std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyTunnelingDistanceMap() { return tunnelingDistanceMap; }
 
     void generateRandomDungeon(int numNPCs = DEFAULT_NUM_MONSTERS);
 
@@ -91,8 +97,11 @@ public:
 
     bool placeCharacterRandomly(Character &character);
     bool placeCharacter(Character &character, int x, int y);
+
+    bool placeNPCsRandomly(int numNPCs = DEFAULT_NUM_MONSTERS);
     
     void printDungeon() const;
+    void printDistanceMap(const std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT> &distanceMap) const;
 
 
 private:

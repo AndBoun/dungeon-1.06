@@ -16,8 +16,19 @@ void Dungeon::generateRandomDungeon(int numNPCS)
         generateCorridors();
         generateStairs();
         placeCharacterRandomly(pc); // Place the player character randomly
-
+        placeNPCsRandomly(numNPCS); // Place NPCs randomly
         break;
     } while (true);
+}
+
+bool Dungeon::placeNPCsRandomly(int numNPCS)
+{
+    for (int i = 0; i < numNPCS; i++) {
+        NPC npc = NPC(Point(), Cell(), true, i);
+        if (placeCharacterRandomly(npc)) {
+            npcs.push_back(npc);
+        }
+    }
+    return true;
 }
 

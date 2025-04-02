@@ -8,6 +8,7 @@
 
 #include <dungeon/Dungeon.hpp>
 #include <io/SaveLoad.hpp>
+#include <pathfinding/Dijkstras.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -44,4 +45,25 @@ int main(int argc, char *argv[])
     }
 
     d.printDungeon();
+
+    Dijkstras::createDistanceMap(
+        d, 
+        d.modifyNonTunnelingDistanceMap(),
+        d.getPC().getPosition().getX(), 
+        d.getPC().getPosition().getY(), 
+        false
+    );
+
+    d.printDistanceMap(d.getNonTunnelingDistanceMap());
+
+
+    Dijkstras::createDistanceMap(
+        d, 
+        d.modifyTunnelingDistanceMap(),
+        d.getPC().getPosition().getX(), 
+        d.getPC().getPosition().getY(), 
+        true
+    );
+
+    d.printDistanceMap(d.getTunnelingDistanceMap());
 }

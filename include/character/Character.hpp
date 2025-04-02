@@ -13,7 +13,7 @@ class Character
 protected:
     Point position; // Position of the character
     int speed;
-    Cell current_cell; // Current cell character is in
+    Cell currentCell; // Current cell character is in
     char symbol; // Symbol to represent the character
     bool alive;
     int ID;

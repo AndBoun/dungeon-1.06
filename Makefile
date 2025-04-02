@@ -1,31 +1,37 @@
 CXX = g++
 CXXFLAGS = -g -Wall -Werror -std=c++17
+CC = gcc
+CFLAGS = -g -Wall -Werror
 INCLUDE_DIR = include
 SRC_DIR = src
 OBJ_DIR = obj
 LDFLAGS = -lncurses
 
 # Create directory structure for object files
-DIRS = $(OBJ_DIR) $(OBJ_DIR)/dungeon $(OBJ_DIR)/dungeon/base $(OBJ_DIR)/utils $(OBJ_DIR)/io $(OBJ_DIR)/character
+DIRS = $(OBJ_DIR) $(OBJ_DIR)/dungeon $(OBJ_DIR)/dungeon/base $(OBJ_DIR)/utils $(OBJ_DIR)/io $(OBJ_DIR)/character $(OBJ_DIR)/pathfinding
 
-# Source files (assuming you've renamed .c files to .cpp)
+# Source files
 DUNGEON_SRC = $(wildcard $(SRC_DIR)/dungeon/*.cpp)
 DUNGEON_BASE_SRC = $(wildcard $(SRC_DIR)/dungeon/base/*.cpp)
 IO_SRC = $(wildcard $(SRC_DIR)/io/*.cpp)
-UTILS_SRC = $(wildcard $(SRC_DIR)/utils/*.cpp)
+UTILS_CPP_SRC = $(wildcard $(SRC_DIR)/utils/*.cpp)
+UTILS_C_SRC = $(wildcard $(SRC_DIR)/utils/*.c)
 CHARACTER_SRC = $(wildcard $(SRC_DIR)/character/*.cpp)
+PATHFINDING_SRC = $(wildcard $(SRC_DIR)/pathfinding/*.cpp)
 MAIN_SRC = $(SRC_DIR)/main.cpp
 
 # Object files
 DUNGEON_OBJ = $(patsubst $(SRC_DIR)/dungeon/%.cpp, $(OBJ_DIR)/dungeon/%.o, $(DUNGEON_SRC))
 DUNGEON_BASE_OBJ = $(patsubst $(SRC_DIR)/dungeon/base/%.cpp, $(OBJ_DIR)/dungeon/base/%.o, $(DUNGEON_BASE_SRC))
 IO_OBJ = $(patsubst $(SRC_DIR)/io/%.cpp, $(OBJ_DIR)/io/%.o, $(IO_SRC))
-UTILS_OBJ = $(patsubst $(SRC_DIR)/utils/%.cpp, $(OBJ_DIR)/utils/%.o, $(UTILS_SRC))
+UTILS_CPP_OBJ = $(patsubst $(SRC_DIR)/utils/%.cpp, $(OBJ_DIR)/utils/%.o, $(UTILS_CPP_SRC))
+UTILS_C_OBJ = $(patsubst $(SRC_DIR)/utils/%.c, $(OBJ_DIR)/utils/%.o, $(UTILS_C_SRC))
 CHARACTER_OBJ = $(patsubst $(SRC_DIR)/character/%.cpp, $(OBJ_DIR)/character/%.o, $(CHARACTER_SRC))
+PATHFINDING_OBJ = $(patsubst $(SRC_DIR)/pathfinding/%.cpp, $(OBJ_DIR)/pathfinding/%.o, $(PATHFINDING_SRC))
 MAIN_OBJ = $(OBJ_DIR)/main.o
 
 # All objects
-ALL_OBJ = $(DUNGEON_OBJ) $(DUNGEON_BASE_OBJ) $(IO_OBJ) $(UTILS_OBJ) $(CHARACTER_OBJ) $(MAIN_OBJ)
+ALL_OBJ = $(DUNGEON_OBJ) $(DUNGEON_BASE_OBJ) $(IO_OBJ) $(UTILS_CPP_OBJ) $(UTILS_C_OBJ) $(CHARACTER_OBJ) $(PATHFINDING_OBJ) $(MAIN_OBJ)
 
 # Target executable
 TARGET = dungeon.out
@@ -54,12 +60,20 @@ $(OBJ_DIR)/dungeon/base/%.o: $(SRC_DIR)/dungeon/base/%.cpp
 $(OBJ_DIR)/io/%.o: $(SRC_DIR)/io/%.cpp
 	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
-# Compile utils files
+# Compile utils C files
+$(OBJ_DIR)/utils/%.o: $(SRC_DIR)/utils/%.c
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+
+# Compile utils C++ files
 $(OBJ_DIR)/utils/%.o: $(SRC_DIR)/utils/%.cpp
 	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 # Compile character files
 $(OBJ_DIR)/character/%.o: $(SRC_DIR)/character/%.cpp
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+
+# Compile pathfinding files
+$(OBJ_DIR)/pathfinding/%.o: $(SRC_DIR)/pathfinding/%.cpp
 	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 clean:

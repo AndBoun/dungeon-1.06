@@ -5,9 +5,9 @@
 #include <character/Character.hpp>
 #include <dungeon/base/Cell.hpp>
 
-Character::Character() : position(Point()), speed(0), current_cell(Cell()), symbol(' '), alive(true), ID(-1) {}
-Character::Character(Point position, int speed, Cell current_cell, char symbol, bool alive, int ID)
-    : position(position), speed(speed), current_cell(current_cell), symbol(symbol), alive(alive), ID(ID) {}
+Character::Character() : position(Point()), speed(0), currentCell(Cell()), symbol(' '), alive(true), ID(-1) {}
+Character::Character(Point position, int speed, Cell currentCell, char symbol, bool alive, int ID)
+    : position(position), speed(speed), currentCell(currentCell), symbol(symbol), alive(alive), ID(ID) {}
 
 Character::~Character() {}
 
@@ -18,7 +18,7 @@ int Character::getSpeed() const {
     return speed;
 }
 const Cell& Character::getCurrentCell() const {
-    return current_cell;
+    return currentCell;
 }
 char Character::getSymbol() const {
     return symbol;
@@ -31,8 +31,8 @@ void Character::setPosition(Point position) {
     this->position = position;
 }
 
-void Character::setCurrentCell(Cell current_cell) {
-    this->current_cell = current_cell;
+void Character::setCurrentCell(Cell currentCell) {
+    this->currentCell = currentCell;
 }
 
 void Character::setAlive(bool alive) {

@@ -9,9 +9,9 @@
 #include <vector>
 #include <memory>
 
-#include <dungeon/Cell.hpp>
-#include <dungeon/Room.hpp>
-#include <dungeon/Stair.hpp>
+#include <dungeon/base/Cell.hpp>
+#include <dungeon/base/Room.hpp>
+#include <dungeon/base/Stair.hpp>
 #include <utils/Point.hpp>
 
 

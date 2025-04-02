@@ -2,7 +2,7 @@
 // Created By Andrew Boun on 4/1/2025
 //
 
-#include <dungeon/Room.hpp>
+#include <dungeon/base/Room.hpp>
 #include <utils/Point.hpp>
 #include <iostream>
 

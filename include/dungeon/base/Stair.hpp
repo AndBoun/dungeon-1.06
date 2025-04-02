@@ -5,7 +5,7 @@
 #ifndef STAIR_HPP
 #define STAIR_HPP
 
-#include <dungeon/Cell.hpp>
+#include <dungeon/base/Cell.hpp>
 #include <utils/Point.hpp>
 
 class Stair : public Cell

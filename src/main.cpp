@@ -14,10 +14,6 @@ int main(int argc, char *argv[])
     unsigned int seed = rd();
     srand(seed); 
 
-    // struct timeval tv;
-    // gettimeofday(&tv, NULL); 
-    // srand(tv.tv_usec ^ getpid());
-
     Dungeon d;
     d.generateRandomDungeon();
     d.printDungeon();

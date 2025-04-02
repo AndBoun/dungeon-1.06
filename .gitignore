@@ -6,6 +6,7 @@
 *.lo
 *.o
 *.obj
+/.obj
 
 # Precompiled Headers
 *.gch
@@ -30,11 +31,10 @@
 *.exe
 *.out
 *.app
-*dungeon
 
 # macOS
 *.DS_Store
 
-
+# VSCode
 /.vscode
-/.obj
+/.idea

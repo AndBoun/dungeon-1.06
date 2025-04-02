@@ -2,7 +2,7 @@
 // Created By Andrew Boun on 4/1/2025
 //
 
-#include <dungeon/Cell.hpp>
+#include <dungeon/base/Cell.hpp>
 #include <iostream>
 
 // Constructor

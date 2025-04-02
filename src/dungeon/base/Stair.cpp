@@ -2,7 +2,7 @@
 // Created By Andrew Boun on 4/1/2025
 //
 
-#include <dungeon/Stair.hpp>
+#include <dungeon/base/Stair.hpp>
 #include <utils/Point.hpp>
 
 // Constructor

@@ -39,21 +39,22 @@ public:
     SaveLoad();
     ~SaveLoad();
 
-    // void save(Dungeon &dungeon);
+    bool save(Dungeon &dungeon);
     bool load(Dungeon &dungeon);
 
 private:
+    int calculateSize(Dungeon &d);
     std::string loadMarker();
     uint32_t loadVersion();
     uint32_t loadSize();
     bool loadPC(Dungeon &d);
     bool loadHardness(Dungeon &d);
     int loadNumRooms(Dungeon &d);
-    // bool loadRooms(Dungeon* d);
-    // int loadNumUpStairs(Dungeon* d);
-    // bool loadUpStairs(Dungeon* d);
-    // int loadNumDownStairs(Dungeon* d);
-    // bool loadDownStairs(Dungeon* d);
-    // bool fillInCorridors(Dungeon* d);
+    bool loadRooms(Dungeon& d, int numRooms);
+    int loadNumUpStairs(Dungeon& d);
+    bool loadUpStairs(Dungeon& d, int numUpStairs);
+    int loadNumDownStairs(Dungeon& d);
+    bool loadDownStairs(Dungeon& d, int numDownStairs);
+    bool fillInCorridors(Dungeon& d);
 };
 #endif

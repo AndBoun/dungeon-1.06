@@ -5,7 +5,24 @@
 #include <dungeon/Dungeon.hpp>
 #include <iostream>
 
-bool Dungeon::generateRooms(){
+// Initialize cells before generating rooms
+void Dungeon::initializeCells()
+{
+    for (int y = 0; y < DUNGEON_HEIGHT; y++) {
+        for (int x = 0; x < DUNGEON_WIDTH; x++) {
+            if (y == 0 || y == DUNGEON_HEIGHT - 1 || x == 0 || x == DUNGEON_WIDTH - 1){
+                grid[y][x].setCell(MAX_HARDNESS, ROCK);
+            }
+            else {
+                int curr_hardness = rand() % (MAX_HARDNESS - 1 - MIN_HARDNESS) + 1;
+                grid[y][x].setCell(curr_hardness, ROCK);
+            }
+        }
+    }
+}
+
+// Generate rooms, used for random generation
+bool Dungeon::generateRooms(){ 
     int numRooms = MIN_ROOMS + rand() % (MAX_ROOMS - MIN_ROOMS + 1);
     for (int i = 0; i < numRooms; i++)
     {

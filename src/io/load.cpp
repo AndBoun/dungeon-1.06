@@ -58,7 +58,9 @@ bool SaveLoad::loadPC(Dungeon &d)
     }
     // initialize player, set curr_cell to FLOOR temporarily, will be set correctly in load()
     // d->initPlayer(pc[0], pc[1], FLOOR);
-    
+    d.getPC().setPosition(Point(pc[0], pc[1]));
+    d.placeCharacter(d.getPC(), pc[0], pc[1]);
+
     return true;
 }
 
@@ -73,7 +75,7 @@ bool SaveLoad::loadHardness(Dungeon &d)
     }
     
     for (int i = 0; i < 1680; i++) {
-        Cell cell = d.modifyGrid()[i / DUNGEON_WIDTH][i % DUNGEON_WIDTH];
+        Cell &cell = d.modifyGrid()[i / DUNGEON_WIDTH][i % DUNGEON_WIDTH];
         cell.setHardness(hardness[i]);
         cell.setType(ROCK);
     }
@@ -95,111 +97,112 @@ int SaveLoad::loadNumRooms(Dungeon &d)
     
     return numRooms;
 }
-/*
+
 bool SaveLoad::loadRooms(Dungeon& d, int numRooms)
 {
-    std::vector<uint8_t> rooms(d->numRooms * 4); // 4 bytes per room
+    std::vector<uint8_t> rooms(numRooms * 4); // 4 bytes per room
     
-    if (fread(rooms.data(), sizeof(uint8_t), d->numRooms * 4, file) != d->numRooms * 4) {
+    if (fread(rooms.data(), sizeof(uint8_t), numRooms * 4, f) != numRooms * 4) {
         std::cerr << "Error: Could not read rooms from file" << std::endl;
         return false;
     }
     
-    for (int i = 0; i < d->numRooms; i++) {
-        d->rooms[i].x = static_cast<int>(rooms[i * 4]);
-        d->rooms[i].y = static_cast<int>(rooms[i * 4 + 1]);
-        d->rooms[i].width = static_cast<int>(rooms[i * 4 + 2]);
-        d->rooms[i].height = static_cast<int>(rooms[i * 4 + 3]);
-        d->rooms[i].centerX = d->rooms[i].x + d->rooms[i].width / 2;
-        d->rooms[i].centerY = d->rooms[i].y + d->rooms[i].height / 2;
+    for (int i = 0; i < numRooms; i++) {
+        Room room = Room(
+            static_cast<int>(rooms[i * 4]), // x
+            static_cast<int>(rooms[i * 4 + 1]), // y
+            static_cast<int>(rooms[i * 4 + 2]), // width
+            static_cast<int>(rooms[i * 4 + 3]) // height
+        );
         
-        d->generateRoom(d->rooms[i]);
+        d.placeRoom(room);
     }
     
     return true;
 }
 
-bool SaveLoad::loadNumUpStairs(Dungeon* d)
+int SaveLoad::loadNumUpStairs(Dungeon& d)
 {
     uint16_t numUpStairs;
     
-    if (fread(&numUpStairs, sizeof(uint16_t), 1, file) != 1) {
+    if (fread(&numUpStairs, sizeof(uint16_t), 1, f) != 1) {
         std::cerr << "Error: Could not read num_up_stairs from file" << std::endl;
-        return false;
+        return -1;
     }
     
     numUpStairs = be16toh(numUpStairs);
-    d->numUpStairs = static_cast<int>(numUpStairs);
-    d->upStairs.resize(d->numUpStairs);
+    numUpStairs = static_cast<int>(numUpStairs);
     
-    return true;
+    return numUpStairs;
 }
 
-bool SaveLoad::loadUpStairs(Dungeon* d)
+bool SaveLoad::loadUpStairs(Dungeon& d, int numUpStairs)
 {
-    std::vector<uint8_t> upStairs(d->numUpStairs * 2); // 2 bytes per up_stairs
+    std::vector<uint8_t> upStairs(numUpStairs * 2); // 2 bytes per up_stairs
     
-    if (fread(upStairs.data(), sizeof(uint8_t), d->numUpStairs * 2, file) != d->numUpStairs * 2) {
+    if (fread(upStairs.data(), sizeof(uint8_t), numUpStairs * 2, f) != numUpStairs * 2) {
         std::cerr << "Error: Could not read up_stairs from file" << std::endl;
         return false;
     }
     
-    for (int i = 0; i < d->numUpStairs; i++) {
-        d->grid[upStairs[i * 2 + 1]][upStairs[i * 2]].type = UP_STAIRS;
-        d->upStairs[i].x = upStairs[i * 2];
-        d->upStairs[i].y = upStairs[i * 2 + 1];
+    for (int i = 0; i < numUpStairs; i++) {
+        d.placeStair(
+            static_cast<int>(upStairs[i * 2]), // x
+            static_cast<int>(upStairs[i * 2 + 1]), // y
+            UP_STAIR // type
+        );
     }
     
     return true;
 }
 
-bool SaveLoad::loadNumDownStairs(Dungeon* d)
+int SaveLoad::loadNumDownStairs(Dungeon& d)
 {
     uint16_t numDownStairs;
     
-    if (fread(&numDownStairs, sizeof(uint16_t), 1, file) != 1) {
+    if (fread(&numDownStairs, sizeof(uint16_t), 1, f) != 1) {
         std::cerr << "Error: Could not read num_down_stairs from file" << std::endl;
-        return false;
+        return -1;
     }
     
     numDownStairs = be16toh(numDownStairs);
-    d->numDownStairs = static_cast<int>(numDownStairs);
-    d->downStairs.resize(d->numDownStairs);
+    numDownStairs = static_cast<int>(numDownStairs);
     
-    return true;
+    return numDownStairs;
 }
 
-bool SaveLoad::loadDownStairs(Dungeon* d)
+bool SaveLoad::loadDownStairs(Dungeon& d, int numDownStairs)
 {
-    std::vector<uint8_t> downStairs(d->numDownStairs * 2); // 2 bytes per down_stairs
+    std::vector<uint8_t> downStairs(numDownStairs * 2); // 2 bytes per down_stairs
     
-    if (fread(downStairs.data(), sizeof(uint8_t), d->numDownStairs * 2, file) != d->numDownStairs * 2) {
+    if (fread(downStairs.data(), sizeof(uint8_t), numDownStairs * 2, f) != numDownStairs * 2) {
         std::cerr << "Error: Could not read down_stairs from file" << std::endl;
         return false;
     }
     
-    for (int i = 0; i < d->numDownStairs; i++) {
-        d->grid[downStairs[i * 2 + 1]][downStairs[i * 2]].type = DOWN_STAIRS;
-        d->downStairs[i].x = downStairs[i * 2];
-        d->downStairs[i].y = downStairs[i * 2 + 1];
+    for (int i = 0; i < numDownStairs; i++) {
+        d.placeStair(
+            static_cast<int>(downStairs[i * 2]), // x
+            static_cast<int>(downStairs[i * 2 + 1]), // y
+            DOWN_STAIR // type
+        );
     }
     
     return true;
 }
 
-bool SaveLoad::fillInCorridors(Dungeon* d)
+bool SaveLoad::fillInCorridors(Dungeon& d)
 {
     for (int i = 0; i < DUNGEON_HEIGHT; i++) {
         for (int j = 0; j < DUNGEON_WIDTH; j++) {
-            if (d->grid[i][j].type == ROCK && d->grid[i][j].hardness == 0) {
-                d->grid[i][j].type = CORRIDOR;
+            if (d.getGrid()[i][j].getType() == ROCK && d.getGrid()[i][j].getHardness() == 0) {
+                d.modifyGrid()[i][j].setType(CORRIDOR);
             }
         }
     }
     
     return true;
 }
-*/
 
 bool SaveLoad::load(Dungeon &d)
 {
@@ -226,28 +229,25 @@ bool SaveLoad::load(Dungeon &d)
     
     if (!loadHardness(d)) return false;
     
-    // if (!loadNumRooms(d)) return false;
     int numRooms = loadNumRooms(d);
     std::cout << "Number of rooms: " << numRooms << std::endl;
-    /*
-    if (!loadRooms(d)) return false;
+    if (!loadRooms(d, numRooms)) return false;
+
+    int numUpStairs = loadNumUpStairs(d);
+    // std::cout << "Number of up stairs: " << d->numUpStairs << std::endl;
+    if (!loadUpStairs(d, numUpStairs)) return false;
     
-    if (!loadNumUpStairs(d)) return false;
-    std::cout << "Number of up stairs: " << d->numUpStairs << std::endl;
-    
-    if (!loadUpStairs(d)) return false;
-    
-    if (!loadNumDownStairs(d)) return false;
-    std::cout << "Number of down stairs: " << d->numDownStairs << std::endl;
-    
-    if (!loadDownStairs(d)) return false;
+    int numDownStairs = loadNumDownStairs(d);
+    // std::cout << "Number of down stairs: " << d->numDownStairs << std::endl;
+    if (!loadDownStairs(d, numDownStairs)) return false;
     
     fillInCorridors(d);
     
-    // PC has already been initialized, fix the cell type
-    d->pc.currCell = d->grid[d->pc.y][d->pc.x].type;
-    d->grid[d->pc.y][d->pc.x].type = PLAYER;
-    */
+    d.placeCharacter(
+        d.getPC(), 
+        d.getPC().getPosition().getX(), 
+        d.getPC().getPosition().getY()
+    );
     
     fclose(f);
     return true;

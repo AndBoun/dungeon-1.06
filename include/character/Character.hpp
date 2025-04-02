@@ -16,10 +16,11 @@ protected:
     Cell current_cell; // Current cell character is in
     char symbol; // Symbol to represent the character
     bool alive;
+    int ID;
 
 public:
     Character();
-    Character(Point position, int speed, Cell current_cell, char symbol, bool alive);
+    Character(Point position, int speed, Cell current_cell, char symbol, bool alive, int ID);
     virtual ~Character();
 
     // Getters

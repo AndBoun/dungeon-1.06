@@ -8,11 +8,13 @@
 #include <utils/Point.hpp>
 #include <dungeon/base/Cell.hpp>
 
+const int PC_SPEED = 10; // Speed of the player character
+
 class PC : public Character
 {
 public:
     PC();
-    PC(Point position, int speed, Cell current_cell, char symbol, bool alive);
+    PC(Point position, Cell current_cell);
     ~PC();
 };
 

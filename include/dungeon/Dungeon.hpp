@@ -19,6 +19,7 @@
 
 #include <utils/Point.hpp>
 
+const char DEFAULT_NUM_MONSTERS = 10;
 
 const char ROCK = ' '; // Rock
 const char FLOOR = '.'; // Floor
@@ -71,6 +72,8 @@ public:
     const std::vector<Stair>& getUpStairs () { return up_stairs; }
     const std::vector<Stair>& getDownStairs () { return down_stairs; }
 
+    PC& getPC() { return pc; }
+
     // Modify Arrays
     std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyGrid() { return grid; }
     std::vector<Room>& modifyRooms () { return rooms; }
@@ -78,7 +81,7 @@ public:
     std::vector<Stair>& modifyDownStairs () { return down_stairs; }
 
 
-    void generateRandomDungeon();
+    void generateRandomDungeon(int numNPCs = DEFAULT_NUM_MONSTERS);
 
     bool generateRandomRoom();
     bool placeRoom(Room &room);
@@ -86,7 +89,8 @@ public:
     bool placeStair(int x, int y, char stairType);
     bool generateRandomStair(char stairType);
 
-    bool placeCharacterRandom(Character &character);
+    bool placeCharacterRandomly(Character &character);
+    bool placeCharacter(Character &character, int x, int y);
     
     void printDungeon() const;
 

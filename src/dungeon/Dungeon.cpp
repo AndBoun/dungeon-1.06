@@ -8,28 +8,16 @@
 Dungeon::Dungeon() {}
 Dungeon::~Dungeon() {}
 
-void Dungeon::generateRandomDungeon()
+void Dungeon::generateRandomDungeon(int numNPCS)
 {
     do {
         initializeCells(); // Initialize the cells with rock
         if (!generateRooms()) continue; // Generate rooms, reset if failed
         generateCorridors();
         generateStairs();
+        placeCharacterRandomly(pc); // Place the player character randomly
+
         break;
     } while (true);
 }
 
-void Dungeon::initializeCells()
-{
-    for (int y = 0; y < DUNGEON_HEIGHT; y++) {
-        for (int x = 0; x < DUNGEON_WIDTH; x++) {
-            if (y == 0 || y == DUNGEON_HEIGHT - 1 || x == 0 || x == DUNGEON_WIDTH - 1){
-                grid[y][x].setCell(MAX_HARDNESS, ROCK);
-            }
-            else {
-                int curr_hardness = rand() % (MAX_HARDNESS - 1 - MIN_HARDNESS) + 1;
-                grid[y][x].setCell(curr_hardness, ROCK);
-            }
-        }
-    }
-}

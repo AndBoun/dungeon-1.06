@@ -4,7 +4,7 @@
 
 #include <character/PC.hpp>
 
-PC::PC() : Character() {}
-PC::PC(Point position, int speed, Cell current_cell, char symbol, bool alive)
-    : Character(position, speed, current_cell, symbol, alive) {}
+PC::PC() : Character(Point(), PC_SPEED, Cell(), '@', true, 0) {}
+PC::PC(Point position, Cell current_cell)
+    : Character(position, PC_SPEED, current_cell, '@', true, 0) {}
 PC::~PC() {}

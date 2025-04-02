@@ -23,7 +23,10 @@ bool Dungeon::generateRandomStair(char stairType){
     do {
         x = (rand() % PLACABLE_WIDTH) + 1;
         y = (rand() % PLACABLE_HEIGHT) + 1;
-    } while (grid[y][x].getType() == ROCK);
+        if (grid[y][x].getType() == FLOOR) {
+            break; // Found a valid position
+        }
+    } while (true);
 
     placeStair(x, y, stairType);
     

@@ -30,6 +30,11 @@
 *.exe
 *.out
 *.app
+*dungeon
 
 # macOS
 *.DS_Store
+
+
+/.vscode
+/.obj

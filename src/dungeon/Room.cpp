@@ -6,26 +6,27 @@
 #include <utils/Point.hpp>
 #include <iostream>
 
-Room::Room() : Point(), width(0), height(0), topLeft(nullptr), center(nullptr) {}
+// Constructor
+Room::Room() : width(0), height(0), topLeft(), center() {}
+Room::Room(int x, int y, int width, int height) : width(width), height(height)
+{
+    topLeft = Point(x, y);
+    center = Point(x + width / 2, y + height / 2);
+}
 
-Room::Room(int x, int y, int width, int height) : Point(x, y), width(width), height(height) {
-    topLeft = new Point(x, y);
-    center = new Point(x + width / 2, y + height / 2);
-}
-Room::~Room() {
-    delete topLeft;
-    delete center;
-}
+// Destructor
+Room::~Room(){}
+
+// Getters and Setters
 int Room::getWidth() const { return width; }
 int Room::getHeight() const { return height; }
+const Point& Room::getTopLeft() const { return topLeft; }
+const Point& Room::getCenter() const { return center; }
+
 void Room::setWidth(int width) { this->width = width; }
 void Room::setHeight(int height) { this->height = height; }
-
-void Room::setTopLeft(int x, int y) {
-    if (topLeft) {
-        topLeft->setPoint(x, y);
-    } else {
-        topLeft = new Point(x, y);
-    }
-    this->center->setPoint(x + width / 2, y + height / 2);
+void Room::setTopLeft(int x, int y)
+{
+    topLeft.setPoint(x, y);
+    center.setPoint(x + width / 2, y + height / 2);
 }

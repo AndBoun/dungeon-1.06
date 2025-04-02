@@ -12,8 +12,8 @@ class Room
 protected:
     int width;
     int height;
-    Point *topLeft;
-    Point *center;
+    Point topLeft;
+    Point center;
 
 public:
     Room();
@@ -22,6 +22,8 @@ public:
 
     int getWidth() const;
     int getHeight() const;
+    const Point& getTopLeft() const;
+    const Point& getCenter() const;
 
     void setWidth(int width);
     void setHeight(int height);

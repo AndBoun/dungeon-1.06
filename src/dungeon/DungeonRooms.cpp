@@ -5,7 +5,6 @@
 #include <dungeon/Dungeon.hpp>
 #include <iostream>
 
-// Rooms
 bool Dungeon::generateRooms(){
     int numRooms = MIN_ROOMS + rand() % (MAX_ROOMS - MIN_ROOMS + 1);
     for (int i = 0; i < numRooms; i++)

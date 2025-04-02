@@ -12,6 +12,11 @@
 #include <dungeon/base/Cell.hpp>
 #include <dungeon/base/Room.hpp>
 #include <dungeon/base/Stair.hpp>
+
+#include <character/Character.hpp>
+#include <character/PC.hpp>
+#include <character/NPC.hpp>
+
 #include <utils/Point.hpp>
 
 
@@ -51,7 +56,7 @@ protected:
     std::vector<Stair> up_stairs;
     std::vector<Stair> down_stairs;
 
-    // PC pc;
+    PC pc;
     // NPC npc
 
     // std::vector<NPC> npcs;
@@ -60,6 +65,19 @@ public:
     Dungeon();
     ~Dungeon();
 
+    // Get Arrays
+    const std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& getGrid() { return grid; }
+    const std::vector<Room>& getRooms () { return rooms; }
+    const std::vector<Stair>& getUpStairs () { return up_stairs; }
+    const std::vector<Stair>& getDownStairs () { return down_stairs; }
+
+    // Modify Arrays
+    std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyGrid() { return grid; }
+    std::vector<Room>& modifyRooms () { return rooms; }
+    std::vector<Stair>& modifyStairs () { return up_stairs; }
+    std::vector<Stair>& modifyDownStairs () { return down_stairs; }
+
+
     void generateRandomDungeon();
 
     bool generateRandomRoom();
@@ -67,6 +85,8 @@ public:
 
     bool placeStair(int x, int y, char stairType);
     bool generateRandomStair(char stairType);
+
+    bool placeCharacterRandom(Character &character);
     
     void printDungeon() const;
 

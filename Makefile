@@ -6,13 +6,14 @@ OBJ_DIR = obj
 LDFLAGS = -lncurses
 
 # Create directory structure for object files
-DIRS = $(OBJ_DIR) $(OBJ_DIR)/dungeon $(OBJ_DIR)/dungeon/base $(OBJ_DIR)/utils $(OBJ_DIR)/io
+DIRS = $(OBJ_DIR) $(OBJ_DIR)/dungeon $(OBJ_DIR)/dungeon/base $(OBJ_DIR)/utils $(OBJ_DIR)/io $(OBJ_DIR)/character
 
 # Source files (assuming you've renamed .c files to .cpp)
 DUNGEON_SRC = $(wildcard $(SRC_DIR)/dungeon/*.cpp)
 DUNGEON_BASE_SRC = $(wildcard $(SRC_DIR)/dungeon/base/*.cpp)
 IO_SRC = $(wildcard $(SRC_DIR)/io/*.cpp)
 UTILS_SRC = $(wildcard $(SRC_DIR)/utils/*.cpp)
+CHARACTER_SRC = $(wildcard $(SRC_DIR)/character/*.cpp)
 MAIN_SRC = $(SRC_DIR)/main.cpp
 
 # Object files
@@ -20,10 +21,11 @@ DUNGEON_OBJ = $(patsubst $(SRC_DIR)/dungeon/%.cpp, $(OBJ_DIR)/dungeon/%.o, $(DUN
 DUNGEON_BASE_OBJ = $(patsubst $(SRC_DIR)/dungeon/base/%.cpp, $(OBJ_DIR)/dungeon/base/%.o, $(DUNGEON_BASE_SRC))
 IO_OBJ = $(patsubst $(SRC_DIR)/io/%.cpp, $(OBJ_DIR)/io/%.o, $(IO_SRC))
 UTILS_OBJ = $(patsubst $(SRC_DIR)/utils/%.cpp, $(OBJ_DIR)/utils/%.o, $(UTILS_SRC))
+CHARACTER_OBJ = $(patsubst $(SRC_DIR)/character/%.cpp, $(OBJ_DIR)/character/%.o, $(CHARACTER_SRC))
 MAIN_OBJ = $(OBJ_DIR)/main.o
 
 # All objects
-ALL_OBJ = $(DUNGEON_OBJ) $(DUNGEON_BASE_OBJ) $(IO_OBJ) $(UTILS_OBJ) $(MAIN_OBJ)
+ALL_OBJ = $(DUNGEON_OBJ) $(DUNGEON_BASE_OBJ) $(IO_OBJ) $(UTILS_OBJ) $(CHARACTER_OBJ) $(MAIN_OBJ)
 
 # Target executable
 TARGET = dungeon.out
@@ -54,6 +56,10 @@ $(OBJ_DIR)/io/%.o: $(SRC_DIR)/io/%.cpp
 
 # Compile utils files
 $(OBJ_DIR)/utils/%.o: $(SRC_DIR)/utils/%.cpp
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+
+# Compile character files
+$(OBJ_DIR)/character/%.o: $(SRC_DIR)/character/%.cpp
 	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 clean:

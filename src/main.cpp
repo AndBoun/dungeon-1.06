@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include <dungeon/Dungeon.hpp>
+#include <io/SaveLoad.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -18,4 +19,6 @@ int main(int argc, char *argv[])
     d.generateRandomDungeon();
     d.printDungeon();
 
+    SaveLoad sl;
+    sl.load(d);
 }

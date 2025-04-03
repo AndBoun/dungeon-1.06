@@ -4,6 +4,7 @@
 
 #include <ncurses.h>
 #include <ui/ui.hpp>
+#include <cstdlib>
 
 
 int ui::handle_monster_list(Dungeon &d){

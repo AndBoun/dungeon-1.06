@@ -4,9 +4,10 @@
 
 #include <dungeon/Dungeon.hpp>
 #include <pathfinding/Dijkstras.hpp>
+#include <math.h>
 
 int Dungeon:: getNPCID(int x, int y) const{
-    for (int i = 0; i < npcs.size(); i++){
+    for (size_t i = 0; i < npcs.size(); i++){
         if (npcs[i].getPosition().getX() == x && npcs[i].getPosition().getY() == y){
             return i;
         }

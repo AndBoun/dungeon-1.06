@@ -4,6 +4,7 @@
 
 
 #include <ui/ui.hpp>
+#include <cstdlib>
 
 
 void ui::teleport(Dungeon &d){

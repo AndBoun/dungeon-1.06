@@ -3,6 +3,7 @@
 //
 
 #include <dungeon/Dungeon.hpp>
+#include <math.h>
 
 bool Dungeon::placeCharacterRandomly(Character &character){
     do {

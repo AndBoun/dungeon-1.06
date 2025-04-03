@@ -48,7 +48,7 @@ bool SaveLoad::save(Dungeon &d){
     fwrite(&num_rooms, 2, 1, f);
 
     // Write rooms
-    for (int i = 0; i < d.getRooms().size(); i++){
+    for (size_t i = 0; i < d.getRooms().size(); i++){
         uint8_t x = (uint8_t)d.getRooms()[i].getTopLeft().getX();
         uint8_t y = (uint8_t)d.getRooms()[i].getTopLeft().getY();
         uint8_t width = (uint8_t)d.getRooms()[i].getWidth();
@@ -64,7 +64,7 @@ bool SaveLoad::save(Dungeon &d){
     fwrite(&num_up, sizeof(uint16_t), 1, f);
 
     // Write up stairs
-    for (int i = 0; i < d.getUpStairs().size(); i++){
+    for (size_t i = 0; i < d.getUpStairs().size(); i++){
         uint8_t x = (uint8_t)d.getUpStairs()[i].getX();
         uint8_t y = (uint8_t)d.getUpStairs()[i].getY();
         fwrite(&x, sizeof(uint8_t), 1, f);
@@ -76,7 +76,7 @@ bool SaveLoad::save(Dungeon &d){
     fwrite(&num_down, sizeof(uint16_t), 1, f);
 
     // Write down stairs
-    for (int i = 0; i < d.getDownStairs().size(); i++){
+    for (size_t i = 0; i < d.getDownStairs().size(); i++){
         uint8_t x = (uint8_t)d.getDownStairs()[i].getX();
         uint8_t y = (uint8_t)d.getDownStairs()[i].getY();
         fwrite(&x, sizeof(uint8_t), 1, f);

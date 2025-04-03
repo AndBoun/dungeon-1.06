@@ -102,7 +102,7 @@ bool SaveLoad::loadRooms(Dungeon& d, int numRooms)
 {
     std::vector<uint8_t> rooms(numRooms * 4); // 4 bytes per room
     
-    if (fread(rooms.data(), sizeof(uint8_t), numRooms * 4, f) != numRooms * 4) {
+    if (fread(rooms.data(), sizeof(uint8_t), numRooms * 4, f) != (uint32_t)numRooms * 4) {
         std::cerr << "Error: Could not read rooms from file" << std::endl;
         return false;
     }
@@ -140,7 +140,7 @@ bool SaveLoad::loadUpStairs(Dungeon& d, int numUpStairs)
 {
     std::vector<uint8_t> upStairs(numUpStairs * 2); // 2 bytes per up_stairs
     
-    if (fread(upStairs.data(), sizeof(uint8_t), numUpStairs * 2, f) != numUpStairs * 2) {
+    if (fread(upStairs.data(), sizeof(uint8_t), numUpStairs * 2, f) != (uint32_t)numUpStairs * 2) {
         std::cerr << "Error: Could not read up_stairs from file" << std::endl;
         return false;
     }
@@ -175,7 +175,7 @@ bool SaveLoad::loadDownStairs(Dungeon& d, int numDownStairs)
 {
     std::vector<uint8_t> downStairs(numDownStairs * 2); // 2 bytes per down_stairs
     
-    if (fread(downStairs.data(), sizeof(uint8_t), numDownStairs * 2, f) != numDownStairs * 2) {
+    if (fread(downStairs.data(), sizeof(uint8_t), numDownStairs * 2, f) != (uint32_t)numDownStairs * 2) {
         std::cerr << "Error: Could not read down_stairs from file" << std::endl;
         return false;
     }

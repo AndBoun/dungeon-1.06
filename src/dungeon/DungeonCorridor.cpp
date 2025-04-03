@@ -7,7 +7,7 @@
 
 void Dungeon::generateCorridors()
 {
-    for (int i = 0; i < rooms.size() - 1; i++)
+    for (size_t i = 0; i < rooms.size() - 1; i++)
     {
         int x1 = rooms[i].getCenter().getX();
         int y1 = rooms[i].getCenter().getY();

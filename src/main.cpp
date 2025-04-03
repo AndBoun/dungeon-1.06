@@ -5,6 +5,7 @@
 #include <random>
 #include <sys/time.h>
 #include <unistd.h>
+#include <cstring>
 
 #include <dungeon/Dungeon.hpp>
 #include <io/SaveLoad.hpp>

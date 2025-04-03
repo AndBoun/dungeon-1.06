@@ -3,6 +3,8 @@
 //
 
 #include <pathfinding/Dijkstras.hpp>
+#include <cstdlib>
+#include <cstring>
 
 int Dijkstras:: coordToKey(int x, int y)
 {

@@ -91,7 +91,7 @@ int Dungeon::startGameplay(int numNPCS){
     // entity = (0) is the player, PLAYER_ID
     // entity = (i + 1), are the monsters, where i = index or monster_ID
     pq_insert(pq, 0, NULL, PLAYER_ID);
-    for (int i = 0; i < getNPCs().size(); i++){
+    for (size_t i = 0; i < getNPCs().size(); i++){
         pq_insert(pq, i + 1, NULL, 0); // all entities start at time 0
     }
 

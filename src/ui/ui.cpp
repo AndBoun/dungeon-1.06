@@ -7,7 +7,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <string.h>
-
+#include <cstdlib>
 #include <ui/ui.hpp>
 
 // #define COLOR_DEFAULT_ID 1

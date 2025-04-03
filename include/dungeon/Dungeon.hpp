@@ -58,6 +58,7 @@ class Dungeon
 {
 protected:
     std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT> grid;
+    std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT> fog;
     std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT> nonTunnelingDistanceMap;
     std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT> tunnelingDistanceMap;
     
@@ -85,6 +86,7 @@ public:
     const std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& getTunnelingDistanceMap() { return tunnelingDistanceMap; }
     PC& getPC() { return pc; }
     int getNumMonsters() { return numMonsterAlive; }
+    const std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& getFog() { return fog; }
 
     // Modify Arrays
     std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyGrid() { return grid; }
@@ -94,6 +96,7 @@ public:
     std::vector<NPC>& modifyNPCs () { return npcs; }
     std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyNonTunnelingDistanceMap() { return nonTunnelingDistanceMap; }
     std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyTunnelingDistanceMap() { return tunnelingDistanceMap; }
+    std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyFog() { return fog; }
 
     void generateRandomDungeon();
 
@@ -141,6 +144,9 @@ private:
     Point get_next_unintelligent_move(NPC &npc, int tunneling);
     int move_non_tunnel(NPC &npc, int new_x, int new_y);
     int move_tunnel(NPC &npc, int new_x, int new_y);
+
+    void init_fog_grid();
+    void update_fog_grid();
 };
 
 #endif

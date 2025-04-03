@@ -88,6 +88,32 @@ void ui::render_grid(Dungeon &d) {
     refresh();
 }
 
+void ui::render_fog(Dungeon &d) {
+    // clear();
+    
+    // Draw the dungeon grid with colors based on cell type
+    for (int i = 0; i < DUNGEON_HEIGHT; i++) {
+        
+        for (int j = 0; j < DUNGEON_WIDTH; j++) {
+            char cell_type = d.getFog()[i][j].getType();
+            attron(COLOR_PAIR(COLOR_DEFAULT_ID)); 
+            
+            // Choose color based on cell type
+            if (cell_type == PLAYER) {
+                attron(COLOR_PAIR(COLOR_PLAYER_ID));
+            } else if (cell_type == UP_STAIR || cell_type == DOWN_STAIR) {
+                attron(COLOR_PAIR(COLOR_STAIR_ID));
+            } else if ((cell_type >= '0' && cell_type <= '9') || (cell_type >= 'A' && cell_type <= 'F')) {
+                attron(COLOR_PAIR(COLOR_MONSTER_ID));
+            }
+            
+            mvaddch(i + 1, j, cell_type);
+        }
+    }
+
+    refresh();
+}
+
 // Render game over message
 void ui::render_game_over(Dungeon &d) {
     clear();
@@ -111,6 +137,7 @@ void ui::render_game_over(Dungeon &d) {
 }
 
 int ui::get_input(Dungeon &d) {
+    int fog = 0;
     while (1) {
         timeout(-1);
         int input = getch();
@@ -172,7 +199,23 @@ int ui::get_input(Dungeon &d) {
             case '>': // Down stairs
                 result = handle_player_movement(d, -3, -3); // -3 for down stairs
                 break;
-             
+            
+            case 'f':
+                if (fog) {
+                    render_top_bar(COLOR_SUCCESS_ID, "Fog of War Enabled");
+                    render_fog(d);
+                } else {
+                    render_top_bar(COLOR_SUCCESS_ID, "Fog of War Disabled");
+                    render_grid(d);
+                }
+                fog = !fog;
+                continue;
+            
+            case 'g':
+                // teleport(d);
+                result = 0;
+                break;
+
 
             case 'q': // quit
             case 'Q':

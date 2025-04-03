@@ -19,8 +19,7 @@ void Dungeon::generateRandomDungeon()
         generateCorridors();
         generateStairs();
         placeCharacterRandomly(pc); // Place the player character randomly
-        // placeNPCsRandomly(numNPCS); // Place NPCs randomly
-        // numMonsterAlive = numNPCS; // Set the number of monsters alive
+        fog[pc.getPosition().getY()][pc.getPosition().getX()].setType(pc.getSymbol());
         break;
     } while (true);
 }
@@ -36,8 +35,36 @@ bool Dungeon::placeNPCsRandomly(int numNPCS)
     return true;
 }
 
+void Dungeon::init_fog_grid(){
+    for (int y = 0; y < DUNGEON_HEIGHT; y++) {
+        for (int x = 0; x < DUNGEON_WIDTH; x++) {
+            Cell cell = grid[y][x];
+            fog[y][x].setCell(cell.getHardness(), cell.getType());
+        }
+    }
+}
+
+void Dungeon::update_fog_grid(){
+    int pc_x = pc.getPosition().getX();
+    int pc_y = pc.getPosition().getY();
+
+    int start_x = std::max(0, pc_x - 2);
+    int end_x = std::min(DUNGEON_WIDTH - 1, pc_x + 2);
+
+    int start_y = std::max(0, pc_y - 2);
+    int end_y = std::min(DUNGEON_HEIGHT - 1, pc_y + 2);
+
+    for (int y = start_y; y <= end_y; y++) {
+        for (int x = start_x; x <= end_x; x++) {
+            // Update the fog with the actual grid cell
+            fog[y][x] = grid[y][x];
+        }
+    }
+}
+
 int Dungeon::startGameplay(int numNPCS){
     // initialize_monsters(d);
+    init_fog_grid(); // Initialize fog grid
     placeNPCsRandomly(numNPCS); // Place NPCs randomly
     numMonsterAlive = numNPCS; // Set the number of monsters alive
     int num_entities = getNPCs().size() + 1;
@@ -64,7 +91,9 @@ int Dungeon::startGameplay(int numNPCS){
 
 
         if (entity_id == PLAYER_ID) { // Player's turn
-            ui::render_grid(*this); // Render the dungeon
+            // ui::render_grid(*this); // Render the dungeon
+            update_fog_grid(); // Update the fog of war
+            ui::render_fog(*this); // Render the fog of war
             ui::get_input(*this); // Get player input
             // printDungeon();
             // usleep(250000); // Sleep for 0.1 seconds

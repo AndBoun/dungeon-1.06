@@ -48,7 +48,6 @@ int main(int argc, char *argv[])
     ui::init_ncurses();
 
     d.startGameplay(num_monsters);
-    // d.movePC(36, 3);
 
     ui::destroy_ncurses();
 

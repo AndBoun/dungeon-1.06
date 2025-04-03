@@ -27,6 +27,8 @@ class ui {
         static void render_top_bar(int color_id, const char *format, ...);
         static void render_grid(Dungeon &d);
         static void render_game_over(Dungeon &d);
+        static void render_fog(Dungeon &d);
+        static void teleport(Dungeon &d);
         
         // Input handling
         static int get_input(Dungeon &d);

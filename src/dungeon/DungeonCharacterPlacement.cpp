@@ -9,8 +9,10 @@ bool Dungeon::placeCharacterRandomly(Character &character){
     do {
         int x = rand() % PLACABLE_WIDTH + 1;
         int y = rand() % PLACABLE_HEIGHT + 1;
-        if (grid[y][x].getType() == FLOOR) {
-            return placeCharacter(character, x, y);
+        if (grid[y][x].getType() == FLOOR && x > 0 && y > 0) {
+            if (placeCharacter(character, x, y)){
+                return true; // Successfully placed
+            }
         }
     } while (true);
     return true;

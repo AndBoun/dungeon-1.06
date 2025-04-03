@@ -1,3 +1,21 @@
+commit 1c5bf325a7202ce361a0d0a0a767690cc3153c10
+Author: AndBoun <167598896+AndBoun@users.noreply.github.com>
+Date:   Wed Apr 2 23:32:28 2025 -0500
+
+    added reset dungeon for stairs
+
+commit d6b49b8d9b4eb3c17055d1586cdaebc918a0958d
+Author: AndBoun <167598896+AndBoun@users.noreply.github.com>
+Date:   Wed Apr 2 23:25:11 2025 -0500
+
+    fix bugs on pyrite
+
+commit a24eb3b789a28675c9a461644820a60c003798ff
+Author: AndBoun <167598896+AndBoun@users.noreply.github.com>
+Date:   Wed Apr 2 23:10:41 2025 -0500
+
+    add teleport
+
 commit 2ac0b6161ef66f00355f7075b77d9487d68cdbf6
 Author: AndBoun <167598896+AndBoun@users.noreply.github.com>
 Date:   Wed Apr 2 21:43:52 2025 -0500

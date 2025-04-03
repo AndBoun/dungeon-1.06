@@ -37,5 +37,3 @@ After loading and generating the Dungeon in `main.c`, the program calls `init_nc
 To regenerate when the player uses a stair, first the program calls `start_gameplay()` then `get_input()`, then `handle_player_movement()` in `ncurses_ui.c`, which calls `move_player()` in `player_movement.c`. This function will return `-2`, which makes `handle_player_movement()`, which also makes `get_input()` return `-2`. Now the `start_gameplay()` method terminates, then back in `main.c`,  the dungeon will be reset with `reset_dungeon()` and gameplay will start again.
 
 The Character files are located in character packages in `src` and `include`.
-
-Player teleportation isn't hasn't been finished yet, but fog of war and c++ is implemented. There are still c style code, and the heap is still fully in c, (as the specification from the RLG road map allowed it.)

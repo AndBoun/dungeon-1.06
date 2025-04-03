@@ -47,3 +47,20 @@ bool Dungeon::placeStair(int x, int y, char stairType){
     }
     return false;
 }
+
+bool Dungeon::isUpStair(int x, int y) const {
+    for (const Stair& stair : up_stairs) {
+        if (stair.getX() == x && stair.getY() == y) {
+            return true;
+        }
+    }
+    return false;
+}
+bool Dungeon::isDownStair(int x, int y) const {
+    for (const Stair& stair : down_stairs) {
+        if (stair.getX() == x && stair.getY() == y) {
+            return true;
+        }
+    }
+    return false;
+}

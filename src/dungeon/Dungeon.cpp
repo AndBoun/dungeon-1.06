@@ -3,12 +3,14 @@
 //
 
 #include <dungeon/Dungeon.hpp>
+#include <utils/priority_queue.h>
 #include <iostream>
+#include <unistd.h>
 
 Dungeon::Dungeon() {}
 Dungeon::~Dungeon() {}
 
-void Dungeon::generateRandomDungeon(int numNPCS)
+void Dungeon::generateRandomDungeon()
 {
     do {
         initializeCells(); // Initialize the cells with rock
@@ -16,7 +18,8 @@ void Dungeon::generateRandomDungeon(int numNPCS)
         generateCorridors();
         generateStairs();
         placeCharacterRandomly(pc); // Place the player character randomly
-        placeNPCsRandomly(numNPCS); // Place NPCs randomly
+        // placeNPCsRandomly(numNPCS); // Place NPCs randomly
+        // numMonsterAlive = numNPCS; // Set the number of monsters alive
         break;
     } while (true);
 }
@@ -30,5 +33,65 @@ bool Dungeon::placeNPCsRandomly(int numNPCS)
         }
     }
     return true;
+}
+
+int Dungeon::startGameplay(int numNPCS){
+    // initialize_monsters(d);
+    placeNPCsRandomly(numNPCS); // Place NPCs randomly
+    numMonsterAlive = numNPCS; // Set the number of monsters alive
+    int num_entities = getNPCs().size() + 1;
+
+    // Create a priority queue for the entities
+    // Only keys are needed, no data
+    PriorityQueue *pq = pq_create(num_entities, num_entities, NULL, NULL);
+
+    // Initialize the priority queue with the player and monsters
+    // entity = (0) is the player, PLAYER_ID
+    // entity = (i + 1), are the monsters, where i = index or monster_ID
+    pq_insert(pq, 0, NULL, PLAYER_ID);
+    for (int i = 0; i < getNPCs().size(); i++){
+        pq_insert(pq, i + 1, NULL, 0); // all entities start at time 0
+    }
+
+    // render_grid(d); // Render the dungeon
+
+    while (getPC().isAlive() && numMonsterAlive > 0) {
+
+        int entity_id = pq_get_min_key(pq);
+        int current_time = pq_get_priority(pq, entity_id);
+        int next_time;
+
+
+        if (entity_id == PLAYER_ID) { // Player's turn
+            // render_grid(d); // Render the dungeon
+            printDungeon();
+            usleep(250000); // Sleep for 0.1 seconds
+
+            // if (get_input(d) == -2){
+            //     pq_destroy(pq);
+            //     return -2;
+            // }
+
+        
+            next_time = current_time + calculateTiming(pc.getSpeed());
+        } else {
+            // Check if the entity is alive, if not, skip
+            if (!npcs[entity_id - 1].isAlive()) {
+                pq_extract_min(pq);
+                continue;
+            }
+            moveNPC(npcs[entity_id - 1]);
+            next_time = current_time + calculateTiming(npcs[entity_id - 1].getSpeed());
+        }
+        
+        // Reschedule entity's next turn
+        pq_extract_min(pq);
+        pq_insert(pq, entity_id, NULL, next_time);
+    }
+
+    // render_game_over(d);
+    pq_destroy(pq);
+
+    return 1;
 }
 

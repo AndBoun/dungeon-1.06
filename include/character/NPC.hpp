@@ -25,6 +25,10 @@ public:
     int getTelepathy() const { return telepathy; }
     int getTunneling() const { return tunneling; }
     int getErratic() const { return erratic; }
+    const Point& getPCPostion() const { return pcPosition; }
+
+    // Setters
+    void setPCPosition(const Point& position) { pcPosition = position; }
 
 };
 

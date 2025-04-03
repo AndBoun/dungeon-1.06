@@ -8,7 +8,7 @@ OBJ_DIR = obj
 LDFLAGS = -lncurses
 
 # Create directory structure for object files
-DIRS = $(OBJ_DIR) $(OBJ_DIR)/dungeon $(OBJ_DIR)/dungeon/base $(OBJ_DIR)/utils $(OBJ_DIR)/io $(OBJ_DIR)/character $(OBJ_DIR)/pathfinding
+DIRS = $(OBJ_DIR) $(OBJ_DIR)/dungeon $(OBJ_DIR)/dungeon/base $(OBJ_DIR)/utils $(OBJ_DIR)/io $(OBJ_DIR)/character $(OBJ_DIR)/pathfinding $(OBJ_DIR)/movement
 
 # Source files
 DUNGEON_SRC = $(wildcard $(SRC_DIR)/dungeon/*.cpp)
@@ -18,6 +18,7 @@ UTILS_CPP_SRC = $(wildcard $(SRC_DIR)/utils/*.cpp)
 UTILS_C_SRC = $(wildcard $(SRC_DIR)/utils/*.c)
 CHARACTER_SRC = $(wildcard $(SRC_DIR)/character/*.cpp)
 PATHFINDING_SRC = $(wildcard $(SRC_DIR)/pathfinding/*.cpp)
+MOVEMENT_SRC = $(wildcard $(SRC_DIR)/movement/*.cpp)
 MAIN_SRC = $(SRC_DIR)/main.cpp
 
 # Object files
@@ -28,10 +29,11 @@ UTILS_CPP_OBJ = $(patsubst $(SRC_DIR)/utils/%.cpp, $(OBJ_DIR)/utils/%.o, $(UTILS
 UTILS_C_OBJ = $(patsubst $(SRC_DIR)/utils/%.c, $(OBJ_DIR)/utils/%.o, $(UTILS_C_SRC))
 CHARACTER_OBJ = $(patsubst $(SRC_DIR)/character/%.cpp, $(OBJ_DIR)/character/%.o, $(CHARACTER_SRC))
 PATHFINDING_OBJ = $(patsubst $(SRC_DIR)/pathfinding/%.cpp, $(OBJ_DIR)/pathfinding/%.o, $(PATHFINDING_SRC))
+MOVEMENT_OBJ = $(patsubst $(SRC_DIR)/movement/%.cpp, $(OBJ_DIR)/movement/%.o, $(MOVEMENT_SRC))
 MAIN_OBJ = $(OBJ_DIR)/main.o
 
 # All objects
-ALL_OBJ = $(DUNGEON_OBJ) $(DUNGEON_BASE_OBJ) $(IO_OBJ) $(UTILS_CPP_OBJ) $(UTILS_C_OBJ) $(CHARACTER_OBJ) $(PATHFINDING_OBJ) $(MAIN_OBJ)
+ALL_OBJ = $(DUNGEON_OBJ) $(DUNGEON_BASE_OBJ) $(IO_OBJ) $(UTILS_CPP_OBJ) $(UTILS_C_OBJ) $(CHARACTER_OBJ) $(PATHFINDING_OBJ) $(MOVEMENT_OBJ) $(MAIN_OBJ)
 
 # Target executable
 TARGET = dungeon.out
@@ -74,6 +76,10 @@ $(OBJ_DIR)/character/%.o: $(SRC_DIR)/character/%.cpp
 
 # Compile pathfinding files
 $(OBJ_DIR)/pathfinding/%.o: $(SRC_DIR)/pathfinding/%.cpp
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+
+# Compile movement files
+$(OBJ_DIR)/movement/%.o: $(SRC_DIR)/movement/%.cpp
 	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 clean:

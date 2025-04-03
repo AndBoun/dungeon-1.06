@@ -21,6 +21,8 @@
 
 const char DEFAULT_NUM_MONSTERS = 10;
 
+const int PLAYER_ID = 0; // Player ID
+
 const char ROCK = ' '; // Rock
 const char FLOOR = '.'; // Floor
 const char UP_STAIR = '<'; // Up stair
@@ -61,6 +63,7 @@ protected:
     std::vector<NPC> npcs;
 
     PC pc;
+    int numMonsterAlive;
 
 
 
@@ -77,6 +80,7 @@ public:
     const std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& getNonTunnelingDistanceMap() { return nonTunnelingDistanceMap; }
     const std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& getTunnelingDistanceMap() { return tunnelingDistanceMap; }
     PC& getPC() { return pc; }
+    int getNumMonsters() { return numMonsterAlive; }
 
     // Modify Arrays
     std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyGrid() { return grid; }
@@ -87,7 +91,7 @@ public:
     std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyNonTunnelingDistanceMap() { return nonTunnelingDistanceMap; }
     std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyTunnelingDistanceMap() { return tunnelingDistanceMap; }
 
-    void generateRandomDungeon(int numNPCs = DEFAULT_NUM_MONSTERS);
+    void generateRandomDungeon();
 
     bool generateRandomRoom();
     bool placeRoom(Room &room);
@@ -99,6 +103,11 @@ public:
     bool placeCharacter(Character &character, int x, int y);
 
     bool placeNPCsRandomly(int numNPCs = DEFAULT_NUM_MONSTERS);
+
+    int startGameplay(int numNPCs = DEFAULT_NUM_MONSTERS);
+    int movePC(int x, int y);
+    bool moveNPC(NPC &npc);
+    bool killNPC(int x, int y);
     
     void printDungeon() const;
     void printDistanceMap(const std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT> &distanceMap) const;
@@ -113,7 +122,21 @@ private:
     void generateStairs();
 
     void generateCorridors();
-    
+
+    int calculateTiming(int speed) { return 1000 / speed; }
+
+    int getNPCID(int x, int y) const;
+    bool isUpStair(int x, int y) const;
+    bool isDownStair(int x, int y) const;
+
+    bool hasLineOfSight(int x, int y);
+    int is_valid_move_non_tunnel(int x, int y);
+    int is_valid_move_tunnel(int x, int y);
+    Point get_next_random_move(int x, int y, int tunneling);
+    Point get_next_intelligent_move(NPC &npc, int tunneling);
+    Point get_next_unintelligent_move(NPC &npc, int tunneling);
+    int move_non_tunnel(NPC &npc, int new_x, int new_y);
+    int move_tunnel(NPC &npc, int new_x, int new_y);
 };
 
 #endif

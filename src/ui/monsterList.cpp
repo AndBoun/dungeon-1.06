@@ -47,7 +47,7 @@ int ui::handle_monster_list(Dungeon &d){
     } while (input != 27 && input != 'm'); // 27 is the ASCII value for ESC key
 
     clear();
-    render_grid(d);
+    render_grid(d.getGrid());
     return 1;
 }
 

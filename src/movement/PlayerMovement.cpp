@@ -5,7 +5,7 @@
 #include <dungeon/Dungeon.hpp>
 #include <pathfinding/Dijkstras.hpp>
 
-int Dungeon:: movePC(int x, int y){
+int Dungeon:: movePC(int x, int y, bool teleport){
 
     int pcX = getPC().getPosition().getX();
     int pcY = getPC().getPosition().getY();
@@ -20,14 +20,24 @@ int Dungeon:: movePC(int x, int y){
 
     // Check if the move is invalid (same position, rock, or non-zero hardness)
     if (
-        (x == pcX && y == pcY) || 
-        (getGrid()[y][x].getType() == ROCK)   || 
-        (getGrid()[y][x].getHardness() > 0)   ||
-        (x < 0 || x >= DUNGEON_WIDTH - 1)  || 
-        (y < 0 || y >= DUNGEON_HEIGHT - 1)
+        !teleport && (
+            (x == pcX && y == pcY) || 
+            (getGrid()[y][x].getType() == ROCK)   || 
+            (getGrid()[y][x].getHardness() > 0)   ||
+            (x < 0 || x >= DUNGEON_WIDTH - 1)  || 
+            (y < 0 || y >= DUNGEON_HEIGHT - 1)
+        )
     ) {
         // printf("Player made an invalid move to (%d, %d)\n", x, y);
         return 0;
+    }
+
+    if (teleport) {
+        // Check if the new position is within bounds
+        if (grid[y][x].getHardness() == MAX_HARDNESS || (x == pcX && y == pcY)) {
+            // printf("Player made an invalid teleport move to (%d, %d)\n", x, y);
+            return 0;
+        }
     }
 
     // Check if the new cell is occupied, and kill the occupant
@@ -44,6 +54,11 @@ int Dungeon:: movePC(int x, int y){
     modifyGrid()[pcY][pcX].setType(getPC().getCurrentCell().getType()); // return the cell to its original type
     getPC().setCurrentCell(getGrid()[y][x]); // update the current cell
     modifyGrid()[y][x].setType(PLAYER); // update the grid with the player type
+
+    if (teleport) {
+        // Corrects the state of the dungeon after teleporting
+        reset_fog_grid(); // reset the fog grid
+    }
 
     getPC().setPosition(Point(x, y)); // update the player position
 

@@ -112,7 +112,7 @@ public:
     bool placeNPCsRandomly(int numNPCs = DEFAULT_NUM_MONSTERS);
 
     int startGameplay(int numNPCs = DEFAULT_NUM_MONSTERS);
-    int movePC(int x, int y);
+    int movePC(int x, int y, bool teleport = false);
     bool moveNPC(NPC &npc);
     bool killNPC(int x, int y);
     
@@ -147,6 +147,7 @@ private:
 
     void init_fog_grid();
     void update_fog_grid();
+    void reset_fog_grid(); // reset to original grid, then update fog grid
 };
 
 #endif

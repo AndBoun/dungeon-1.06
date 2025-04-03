@@ -10,13 +10,13 @@
 
 #include <ui/ui.hpp>
 
-#define COLOR_DEFAULT_ID 1
-#define COLOR_PLAYER_ID 2
-#define COLOR_STAIR_ID 3
-#define COLOR_SUCCESS_ID 3
-#define COLOR_MONSTER_ID 4
-#define COLOR_ERROR_ID 5
-#define COLOR_WARNING_ID 6
+// #define COLOR_DEFAULT_ID 1
+// #define COLOR_PLAYER_ID 2
+// #define COLOR_STAIR_ID 3
+// #define COLOR_SUCCESS_ID 3
+// #define COLOR_MONSTER_ID 4
+// #define COLOR_ERROR_ID 5
+// #define COLOR_WARNING_ID 6
 
 
 void ui::init_ncurses() {
@@ -62,40 +62,14 @@ void ui::render_top_bar(int color_id, const char *format, ...) {
     refresh();
 }
 
-void ui::render_grid(Dungeon &d) {
+void ui::render_grid(std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT> grid) {
     // clear();
     
     // Draw the dungeon grid with colors based on cell type
     for (int i = 0; i < DUNGEON_HEIGHT; i++) {
         
         for (int j = 0; j < DUNGEON_WIDTH; j++) {
-            char cell_type = d.getGrid()[i][j].getType();
-            attron(COLOR_PAIR(COLOR_DEFAULT_ID)); 
-            
-            // Choose color based on cell type
-            if (cell_type == PLAYER) {
-                attron(COLOR_PAIR(COLOR_PLAYER_ID));
-            } else if (cell_type == UP_STAIR || cell_type == DOWN_STAIR) {
-                attron(COLOR_PAIR(COLOR_STAIR_ID));
-            } else if ((cell_type >= '0' && cell_type <= '9') || (cell_type >= 'A' && cell_type <= 'F')) {
-                attron(COLOR_PAIR(COLOR_MONSTER_ID));
-            }
-            
-            mvaddch(i + 1, j, cell_type);
-        }
-    }
-
-    refresh();
-}
-
-void ui::render_fog(Dungeon &d) {
-    // clear();
-    
-    // Draw the dungeon grid with colors based on cell type
-    for (int i = 0; i < DUNGEON_HEIGHT; i++) {
-        
-        for (int j = 0; j < DUNGEON_WIDTH; j++) {
-            char cell_type = d.getFog()[i][j].getType();
+            char cell_type = grid[i][j].getType();
             attron(COLOR_PAIR(COLOR_DEFAULT_ID)); 
             
             // Choose color based on cell type
@@ -118,7 +92,7 @@ void ui::render_fog(Dungeon &d) {
 void ui::render_game_over(Dungeon &d) {
     clear();
     
-    render_grid(d);
+    render_grid(d.getGrid());
     
     if (!d.getPC().isAlive()) {
         render_top_bar(COLOR_ERROR_ID, "Player Died, press 'q' to quit");
@@ -203,17 +177,17 @@ int ui::get_input(Dungeon &d) {
             case 'f':
                 if (fog) {
                     render_top_bar(COLOR_SUCCESS_ID, "Fog of War Enabled");
-                    render_fog(d);
+                    render_grid(d.getFog());
                 } else {
                     render_top_bar(COLOR_SUCCESS_ID, "Fog of War Disabled");
-                    render_grid(d);
+                    render_grid(d.getGrid());
                 }
                 fog = !fog;
                 continue;
             
             case 'g':
-                // teleport(d);
-                result = 0;
+                teleport(d);
+                result = 1;
                 break;
 
 

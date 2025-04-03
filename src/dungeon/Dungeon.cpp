@@ -62,6 +62,20 @@ void Dungeon::update_fog_grid(){
     }
 }
 
+void Dungeon::reset_fog_grid(){
+    for (int y = 0; y < DUNGEON_HEIGHT; y++) {
+        for (int x = 0; x < DUNGEON_WIDTH; x++) {
+            Cell cell = grid[y][x];
+            char cell_type = cell.getType();
+            if ((cell_type >= '0' && cell_type <= '9') || (cell_type >= 'A' && cell_type <= 'F')){
+                cell_type = (npcs[getNPCID(x, y)].getCurrentCell().getType()); // Reset to empty space
+            }
+            fog[y][x].setType(cell_type);
+        }
+    }
+    update_fog_grid(); // Update the fog grid
+}
+
 int Dungeon::startGameplay(int numNPCS){
     // initialize_monsters(d);
     init_fog_grid(); // Initialize fog grid
@@ -93,7 +107,7 @@ int Dungeon::startGameplay(int numNPCS){
         if (entity_id == PLAYER_ID) { // Player's turn
             // ui::render_grid(*this); // Render the dungeon
             update_fog_grid(); // Update the fog of war
-            ui::render_fog(*this); // Render the fog of war
+            ui::render_grid(fog); // Render the fog of war
             ui::get_input(*this); // Get player input
             // printDungeon();
             // usleep(250000); // Sleep for 0.1 seconds

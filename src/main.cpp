@@ -9,6 +9,7 @@
 #include <dungeon/Dungeon.hpp>
 #include <io/SaveLoad.hpp>
 #include <pathfinding/Dijkstras.hpp>
+#include <ui/ui.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -44,7 +45,12 @@ int main(int argc, char *argv[])
         sl.save(d);
     }
 
+    ui::init_ncurses();
+
     d.startGameplay(num_monsters);
+    // d.movePC(36, 3);
+
+    ui::destroy_ncurses();
 
     d.printDungeon();
 }

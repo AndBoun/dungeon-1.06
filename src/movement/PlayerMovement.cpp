@@ -22,7 +22,7 @@ int Dungeon:: movePC(int x, int y){
     if (
         (x == pcX && y == pcY) || 
         (getGrid()[y][x].getType() == ROCK)   || 
-        (getGrid()[y][x].getType() > 0)   ||
+        (getGrid()[y][x].getHardness() > 0)   ||
         (x < 0 || x >= DUNGEON_WIDTH - 1)  || 
         (y < 0 || y >= DUNGEON_HEIGHT - 1)
     ) {

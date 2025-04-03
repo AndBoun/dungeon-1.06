@@ -50,6 +50,10 @@ const int MAX_UP_STAIRS = 4;
 
 const int MAX_ATTEMPTS = 2000; // Maximum attempts to place a room
 
+const int MOVEMENT_INVALID = 0;
+const int MOVEMENT_SUCCESS = 1;
+const int MOVEMENT_STAIRS = -2;
+
 class Dungeon
 {
 protected:

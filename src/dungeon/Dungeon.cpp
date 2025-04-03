@@ -6,6 +6,7 @@
 #include <utils/priority_queue.h>
 #include <iostream>
 #include <unistd.h>
+#include <ui/ui.hpp>
 
 Dungeon::Dungeon() {}
 Dungeon::~Dungeon() {}
@@ -63,9 +64,10 @@ int Dungeon::startGameplay(int numNPCS){
 
 
         if (entity_id == PLAYER_ID) { // Player's turn
-            // render_grid(d); // Render the dungeon
-            printDungeon();
-            usleep(250000); // Sleep for 0.1 seconds
+            ui::render_grid(*this); // Render the dungeon
+            ui::get_input(*this); // Get player input
+            // printDungeon();
+            // usleep(250000); // Sleep for 0.1 seconds
 
             // if (get_input(d) == -2){
             //     pq_destroy(pq);
@@ -89,7 +91,7 @@ int Dungeon::startGameplay(int numNPCS){
         pq_insert(pq, entity_id, NULL, next_time);
     }
 
-    // render_game_over(d);
+    ui::render_game_over(*this);
     pq_destroy(pq);
 
     return 1;

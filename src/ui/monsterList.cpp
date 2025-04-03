@@ -12,7 +12,7 @@ int ui::handle_monster_list(Dungeon &d){
     // Create array with only alive monsters for easier scrolling
     int idx = 0;
     NPC alive [d.getNumMonsters()];
-    for (int i = 0; i < d.getNumMonsters(); i++){
+    for (size_t i = 0; i < d.getNPCs().size(); i++){
         if (d.getNPCs()[i].isAlive()) {
             alive[idx++] = d.getNPCs()[i];
         }

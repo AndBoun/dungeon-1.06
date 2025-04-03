@@ -1,3 +1,27 @@
+commit 09328c821718963a1bc90b450b27739ff16f3e24
+Author: AndBoun <167598896+AndBoun@users.noreply.github.com>
+Date:   Thu Apr 3 00:24:37 2025 -0500
+
+    correctly implemented fog of war
+
+commit f7b07d18737a6b7dc1875941b9848b0a741a8e5c
+Author: Andrew Boun <167598896+AndBoun@users.noreply.github.com>
+Date:   Wed Apr 2 23:58:52 2025 -0500
+
+    Update README.md
+
+commit 94946aadaf3e2d97ee9f2ad0eb9190f4cb597149
+Author: AndBoun <167598896+AndBoun@users.noreply.github.com>
+Date:   Wed Apr 2 23:49:28 2025 -0500
+
+    fix monsterlist arrays to avoid segmentation fault
+
+commit 1cd273ea9b64103a265dbf60995e780bee04e236
+Author: AndBoun <167598896+AndBoun@users.noreply.github.com>
+Date:   Wed Apr 2 23:37:56 2025 -0500
+
+    update readme and changelog
+
 commit 1c5bf325a7202ce361a0d0a0a767690cc3153c10
 Author: AndBoun <167598896+AndBoun@users.noreply.github.com>
 Date:   Wed Apr 2 23:32:28 2025 -0500

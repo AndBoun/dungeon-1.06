@@ -11,6 +11,16 @@
 Dungeon::Dungeon() {}
 Dungeon::~Dungeon() {}
 
+void Dungeon::resetDungeon()
+{
+    // Clear rooms, stairs, and NPCs
+    rooms.clear();
+    up_stairs.clear();
+    down_stairs.clear();
+    npcs.clear();
+    generateRandomDungeon(); // Regenerate the dungeon
+}
+
 void Dungeon::generateRandomDungeon()
 {
     do {
@@ -108,14 +118,10 @@ int Dungeon::startGameplay(int numNPCS){
             // ui::render_grid(*this); // Render the dungeon
             update_fog_grid(); // Update the fog of war
             ui::render_grid(fog); // Render the fog of war
-            ui::get_input(*this); // Get player input
-            // printDungeon();
-            // usleep(250000); // Sleep for 0.1 seconds
-
-            // if (get_input(d) == -2){
-            //     pq_destroy(pq);
-            //     return -2;
-            // }
+            if (ui::get_input(*this) == -2){
+                pq_destroy(pq);
+                return -2;
+            }
 
         
             next_time = current_time + calculateTiming(pc.getSpeed());

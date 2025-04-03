@@ -116,6 +116,8 @@ public:
     bool moveNPC(NPC &npc);
     bool killNPC(int x, int y);
     
+    void resetDungeon();
+
     void printDungeon() const;
     void printDistanceMap(const std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT> &distanceMap) const;
 

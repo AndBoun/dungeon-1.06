@@ -48,7 +48,9 @@ int main(int argc, char *argv[])
 
     ui::init_ncurses();
 
-    d.startGameplay(num_monsters);
+    while (d.startGameplay(num_monsters) == - 2){
+        d.resetDungeon();
+    }
 
     ui::destroy_ncurses();
 

@@ -39,6 +39,7 @@ To regenerate when the player uses a stair, first the program calls `start_gamep
 The Character files are located in character packages in `src` and `include`.
 
 # Example Gameplay:
-![dungeon-1 06_gameplay](https://github.com/user-attachments/assets/9e9bb637-6046-406b-9419-d40d07c2bae5)
+![dungeon-1 06-gameplay](https://github.com/user-attachments/assets/51c484c3-c66c-4215-8bf4-78c423185650)
+
 
 

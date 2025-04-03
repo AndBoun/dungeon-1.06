@@ -56,8 +56,7 @@ int Dungeon:: movePC(int x, int y, bool teleport){
     modifyGrid()[y][x].setType(PLAYER); // update the grid with the player type
 
     if (teleport) {
-        // Corrects the state of the dungeon after teleporting
-        reset_fog_grid(); // reset the fog grid
+        fog[pcY][pcX].setType(grid[pcY][pcX].getType()); // update the fog grid
     }
 
     getPC().setPosition(Point(x, y)); // update the player position

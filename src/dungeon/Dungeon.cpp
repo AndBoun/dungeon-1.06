@@ -14,6 +14,7 @@ Dungeon::~Dungeon() {}
 void Dungeon::resetDungeon()
 {
     // Clear rooms, stairs, and NPCs
+    reset_fog_grid(); // Reset the fog grid
     rooms.clear();
     up_stairs.clear();
     down_stairs.clear();
@@ -45,6 +46,7 @@ bool Dungeon::placeNPCsRandomly(int numNPCS)
     return true;
 }
 
+// this function should not be called, dungeon starts empty
 void Dungeon::init_fog_grid(){
     for (int y = 0; y < DUNGEON_HEIGHT; y++) {
         for (int x = 0; x < DUNGEON_WIDTH; x++) {
@@ -75,20 +77,14 @@ void Dungeon::update_fog_grid(){
 void Dungeon::reset_fog_grid(){
     for (int y = 0; y < DUNGEON_HEIGHT; y++) {
         for (int x = 0; x < DUNGEON_WIDTH; x++) {
-            Cell cell = grid[y][x];
-            char cell_type = cell.getType();
-            if ((cell_type >= '0' && cell_type <= '9') || (cell_type >= 'A' && cell_type <= 'F')){
-                cell_type = (npcs[getNPCID(x, y)].getCurrentCell().getType()); // Reset to empty space
-            }
-            fog[y][x].setType(cell_type);
+            fog[y][x].setCell(MAX_HARDNESS, ROCK); // Reset to rock
         }
     }
-    update_fog_grid(); // Update the fog grid
 }
 
 int Dungeon::startGameplay(int numNPCS){
     // initialize_monsters(d);
-    init_fog_grid(); // Initialize fog grid
+    // init_fog_grid(); // Initialize fog grid
     placeNPCsRandomly(numNPCS); // Place NPCs randomly
     numMonsterAlive = numNPCS; // Set the number of monsters alive
     int num_entities = getNPCs().size() + 1;

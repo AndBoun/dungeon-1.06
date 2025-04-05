@@ -21,6 +21,7 @@ bool Dungeon:: killNPC(int x, int y){
 
     modifyGrid()[y][x].setType(getNPCs()[ID].getCurrentCell().getType());
     npcs[ID].setPosition(Point(-1, -1));
+    npcs[ID].setAlive(false);
     numMonsterAlive--;
     return 0;
 }

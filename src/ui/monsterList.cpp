@@ -27,7 +27,6 @@ int ui::handle_monster_list(Dungeon &d){
         input = getch();
 
         switch (input) {
-            case 'q': // quit
             case 'Q':
                 destroy_ncurses();
                 printf("Game terminated by user\n");
@@ -45,7 +44,7 @@ int ui::handle_monster_list(Dungeon &d){
             default:
                 break;
         }
-    } while (input != 27 && input != 'm'); // 27 is the ASCII value for ESC key
+    } while (input != 27 && input != 'm' && input != 'q'); // 27 is the ASCII value for ESC key
 
     clear();
     render_grid(d.getGrid());

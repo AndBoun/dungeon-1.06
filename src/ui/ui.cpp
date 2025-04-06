@@ -114,7 +114,7 @@ int ui::get_input(Dungeon &d) {
     while (1) {
         timeout(-1);
         int input = getch();
-        int result;
+        int result = 0;
         
         
         // Process directional keys
@@ -185,12 +185,9 @@ int ui::get_input(Dungeon &d) {
                 continue;
             
             case 'g':
-                teleport(d);
-                result = 1;
+                if (teleport(d)) result = 1;
                 break;
 
-
-            case 'q': // quit
             case 'Q':
                 destroy_ncurses();
                 printf("Game terminated by user\n");

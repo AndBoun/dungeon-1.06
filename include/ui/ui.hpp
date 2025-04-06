@@ -35,7 +35,7 @@ class ui {
         static void render_top_bar(int color_id, const char *format, ...);
         static void render_grid(std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT> grid);
         static void render_game_over(Dungeon &d);
-        static void teleport(Dungeon &d);
+        static bool teleport(Dungeon &d);
         
         // Input handling
         static int get_input(Dungeon &d);

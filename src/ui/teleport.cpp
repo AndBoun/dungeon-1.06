@@ -7,7 +7,7 @@
 #include <cstdlib>
 
 
-void ui::teleport(Dungeon &d){
+bool ui::teleport(Dungeon &d){
     std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT> grid_copy = d.getGrid();
     int result = 0;
 
@@ -38,6 +38,7 @@ void ui::teleport(Dungeon &d){
                     render_top_bar(COLOR_SUCCESS_ID, "Teleported to (%d, %d)", x, y);
                 }
                 break;
+                
             case 'r':
                 do {
                     x = rand() % DUNGEON_WIDTH;
@@ -47,7 +48,8 @@ void ui::teleport(Dungeon &d){
                 d.movePC(x, y, true);
                 result = 1;
                 render_top_bar(COLOR_SUCCESS_ID, "Teleported to (%d, %d)", x, y);
-                return;
+                result = 1;
+                break;
             
             case 'h':
             case '4':
@@ -93,20 +95,23 @@ void ui::teleport(Dungeon &d){
                 y++;
                 break;
             
-            
-
             case 'q':
+                return false;
+                break;
+
+            case 'Q':
                 destroy_ncurses();
                 printf("Game terminated by user\n");
                 exit(0);
                 break;
         };
-        if (x < 0) x = 0;
-        if (x >= DUNGEON_WIDTH) x = DUNGEON_WIDTH - 1;
-        if (y < 0) y = 0;
-        if (y >= DUNGEON_HEIGHT) y = DUNGEON_HEIGHT - 1;
+        if (x < 1) x = 0;
+        if (x >= DUNGEON_WIDTH - 1) x = DUNGEON_WIDTH - 2;
+        if (y < 1) y = 0;
+        if (y >= DUNGEON_HEIGHT - 1) y = DUNGEON_HEIGHT - 2;
 
         if (result) break;
     }
     
+    return true;
 }

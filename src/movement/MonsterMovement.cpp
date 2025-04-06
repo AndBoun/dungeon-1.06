@@ -149,12 +149,12 @@ Point Dungeon:: get_next_intelligent_move(NPC &npc, int tunneling){
 
     // If the monster is already at the PC's position, return that position
     // If the monster doesn't know the PC's position, return its own position
-    if ((m_pc_x == m_x &&m_pc_x == m_y) ||
-        (m_pc_x == -1 ||m_pc_x == -1))
+    if ((m_pc_x == m_x && m_pc_y == m_y) ||
+        (m_pc_x == -1 || m_pc_y == -1))
         return Point(m_x, m_y);
 
     // Recalculate the distance maps if using PC's remembered position
-    if (m_pc_x != pc_x ||m_pc_x != pc_y){
+    if (m_pc_x != pc_x || m_pc_y != pc_y){
         Dijkstras::createDistanceMap(
             *this, 
             modifyNonTunnelingDistanceMap(),

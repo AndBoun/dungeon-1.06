@@ -111,7 +111,6 @@ void ui::render_game_over(Dungeon &d) {
 }
 
 int ui::get_input(Dungeon &d) {
-    int fog = 0;
     while (1) {
         timeout(-1);
         int input = getch();
@@ -175,14 +174,14 @@ int ui::get_input(Dungeon &d) {
                 break;
             
             case 'f':
-                if (fog) {
+                d.setFogStatus(!d.getFogStatus());
+                if (d.getFogStatus()) {
                     render_top_bar(COLOR_SUCCESS_ID, "Fog of War Enabled");
                     render_grid(d.getFog());
                 } else {
                     render_top_bar(COLOR_SUCCESS_ID, "Fog of War Disabled");
                     render_grid(d.getGrid());
                 }
-                fog = !fog;
                 continue;
             
             case 'g':

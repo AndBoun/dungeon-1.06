@@ -113,7 +113,12 @@ int Dungeon::startGameplay(int numNPCS){
         if (entity_id == PLAYER_ID) { // Player's turn
             // ui::render_grid(*this); // Render the dungeon
             update_fog_grid(); // Update the fog of war
-            ui::render_grid(fog); // Render the fog of war
+            // ui::render_grid(fog); // Render the fog of war
+            if (getFogStatus()) {
+                ui::render_grid(getFog());
+            } else {
+                ui::render_grid(getGrid());
+            }
             if (ui::get_input(*this) == -2){
                 pq_destroy(pq);
                 return -2;

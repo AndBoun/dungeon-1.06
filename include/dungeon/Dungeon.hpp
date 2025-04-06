@@ -70,6 +70,8 @@ protected:
     PC pc;
     int numMonsterAlive;
 
+    bool isFog = true; // Flag to indicate if fog of war is enabled
+
 
 
 public:
@@ -87,6 +89,8 @@ public:
     PC& getPC() { return pc; }
     int getNumMonsters() { return numMonsterAlive; }
     const std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& getFog() { return fog; }
+    bool getFogStatus() { return isFog; }
+    
 
     // Modify Arrays
     std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyGrid() { return grid; }
@@ -97,6 +101,8 @@ public:
     std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyNonTunnelingDistanceMap() { return nonTunnelingDistanceMap; }
     std::array<std::array<int, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyTunnelingDistanceMap() { return tunnelingDistanceMap; }
     std::array<std::array<Cell, DUNGEON_WIDTH>, DUNGEON_HEIGHT>& modifyFog() { return fog; }
+    void setFogStatus(bool status) { isFog = status; }
+
 
     void generateRandomDungeon();
 

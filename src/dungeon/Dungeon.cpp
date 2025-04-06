@@ -57,6 +57,15 @@ void Dungeon::init_fog_grid(){
 }
 
 void Dungeon::update_fog_grid(){
+    for (int y = 0; y < DUNGEON_HEIGHT; y++) {
+        for (int x = 0; x < DUNGEON_WIDTH; x++) {
+            char cell_type = fog[y][x].getType();
+            if ((cell_type >= '0' && cell_type <= '9') || (cell_type >= 'A' && cell_type <= 'F')) {
+                fog[y][x].setType(fog[y][x].getOldType()); // Restore the old type
+            }
+        }
+    }
+
     int pc_x = pc.getPosition().getX();
     int pc_y = pc.getPosition().getY();
 
@@ -70,6 +79,10 @@ void Dungeon::update_fog_grid(){
         for (int x = start_x; x <= end_x; x++) {
             // Update the fog with the actual grid cell
             fog[y][x] = grid[y][x];
+            char cell_type = fog[y][x].getType();
+            if ((cell_type >= '0' && cell_type <= '9') || (cell_type >= 'A' && cell_type <= 'F')) {
+                fog[y][x].setOldType(npcs[getNPCID(x, y)].getCurrentCell().getType()); // Store the old type
+            }
         }
     }
 }

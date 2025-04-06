@@ -195,13 +195,14 @@ Point Dungeon:: get_next_intelligent_move(NPC &npc, int tunneling){
 
                 // Prevent tunneling through walls if there's an equivalent non-tunneling path
                 // Select the first minimum distance
-                if (modifyGrid()[new_y][new_x].getHardness() == 0 &&
-                    getGrid()[p.getY()][p.getX()].getHardness() != 0
+                if (grid[new_y][new_x].getHardness() == 0 &&
+                    grid[p.getY()][p.getX()].getHardness() != 0
                 ){
                     min_dist = getTunnelingDistanceMap()[new_y][new_x];
                     p.setPoint(new_x, new_y);
                 }
                 else if (getTunnelingDistanceMap()[new_y][new_x] < min_dist){
+                    min_dist = getTunnelingDistanceMap()[new_y][new_x];
                     p.setPoint(new_x, new_y);
                 }
             }
@@ -217,7 +218,7 @@ Point Dungeon:: get_next_intelligent_move(NPC &npc, int tunneling){
 
     // Recalculate the distance maps using PC's correct position
     // if it differes from the monster's remembered position
-    if (m_pc_x != pc_x ||m_pc_x != pc_y){
+    if (m_pc_x != pc_x || m_pc_x != pc_y){
         Dijkstras::createDistanceMap(
             *this, 
             modifyNonTunnelingDistanceMap(),

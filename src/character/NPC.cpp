@@ -10,11 +10,11 @@ NPC::~NPC() {}
 NPC::NPC() : Character(Point(), 0, Cell(), '!', false, 0) {}
 
 NPC::NPC(Point position, Cell cell, bool isAlive, int ID){
-    // intelligent = rand() % 2, telepathy = rand() % 2;
-    // tunneling = rand() % 2, erratic = rand() % 2;
+    intelligent = rand() % 2, telepathy = rand() % 2;
+    tunneling = rand() % 2, erratic = rand() % 2;
 
-    intelligent = 1, telepathy = 1;
-    tunneling = 1, erratic = 0;
+    // intelligent = 1, telepathy = 1;
+    // tunneling = 1, erratic = 0;
 
     speed = (rand() % 16) + 5;
 

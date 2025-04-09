@@ -38,3 +38,6 @@
 # VSCode
 /.vscode
 /.idea
+
+# Make
+/dungeon

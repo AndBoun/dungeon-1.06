@@ -5,6 +5,8 @@
 mkdir ~/.rlg327
 ```
 
+> Files within the `.rlg327` folder are provided from Iowa State University's professor, Jeremy Scheaffer
+
 Build the project:
 ```bash
 make

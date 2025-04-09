@@ -96,6 +96,12 @@ bool ui::teleport(Dungeon &d){
                 break;
             
             case 'q':
+                if (d.getFogStatus()) {
+                    render_grid(d.getFog());
+                } else {
+                    render_grid(d.getGrid());
+                }
+                render_top_bar(COLOR_SUCCESS_ID, "Teleport cancelled");
                 return false;
                 break;
 
@@ -105,9 +111,9 @@ bool ui::teleport(Dungeon &d){
                 exit(0);
                 break;
         };
-        if (x < 1) x = 0;
+        if (x < 1) x = 1;
         if (x >= DUNGEON_WIDTH - 1) x = DUNGEON_WIDTH - 2;
-        if (y < 1) y = 0;
+        if (y < 1) y = 1;
         if (y >= DUNGEON_HEIGHT - 1) y = DUNGEON_HEIGHT - 2;
 
         if (result) break;

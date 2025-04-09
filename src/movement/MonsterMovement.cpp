@@ -331,6 +331,11 @@ int Dungeon:: move_tunnel(NPC &npc, int new_x, int new_y){
     // Burrow through the wall
     if (getGrid()[new_y][new_x].getHardness() <= 85 && getGrid()[new_y][new_x].getHardness() > 0)
     {
+        // kill player, should only occur if player teleports into rock
+        if (grid[new_y][new_x].getType() == PLAYER){
+            getPC().setAlive(false);
+        }
+
         modifyGrid()[new_y][new_x].setHardness(0);
         modifyGrid()[new_y][new_x].setType(CORRIDOR);
 

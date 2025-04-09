@@ -6,6 +6,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <cstring>
+#include <iostream>
 
 #include <dungeon/Dungeon.hpp>
 #include <io/SaveLoad.hpp>
@@ -29,6 +30,9 @@ int main(int argc, char *argv[])
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "--load") == 0) {
             load_flag = 1;
+            if (i + 1 >= argc) continue; 
+            if (argv[i + 1][0] == '-' && argv[i + 1][1] == '-') continue;
+            sl = SaveLoad(argv[++i]);
         } else if (strcmp(argv[i], "--save") == 0) {
             save_flag = 1;
         } else if (strcmp(argv[i], "--nummon") == 0) {
@@ -43,6 +47,7 @@ int main(int argc, char *argv[])
     }
 
     if (save_flag) {
+        sl = SaveLoad();
         sl.save(d);
     }
 
@@ -54,5 +59,5 @@ int main(int argc, char *argv[])
 
     ui::destroy_ncurses();
 
-    d.printDungeon();
+    // d.printDungeon();
 }

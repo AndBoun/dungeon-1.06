@@ -37,6 +37,7 @@ protected:
 
 public:
     SaveLoad();
+    SaveLoad(std::string str);
     ~SaveLoad();
 
     bool save(Dungeon &dungeon);

@@ -5,6 +5,55 @@
 #include <io/SaveLoad.hpp>
 #include <iostream>
 
+bool SaveLoad::load(Dungeon &d)
+{
+    f = fopen(dungeonFile.c_str(), "rb");
+
+    std::cout << "Home: " << home << std::endl;
+    std::cout << "Dungeon file: " << dungeonFile << std::endl;
+    
+    std::string marker = loadMarker();
+    std::cout << "Marker: " << marker << std::endl;
+    if (marker != EXPECTED_MARKER) {
+        std::cerr << "Error: Invalid marker" << std::endl;
+        return false;
+    }
+    
+    uint32_t version = loadVersion();
+    std::cout << "Version: " << version << std::endl;
+    
+    uint32_t size = loadSize();
+    std::cout << "Size: " << size << std::endl;
+    
+    if (!loadPC(d)) return false;
+    // std::cout << "PC: x: " << d->pc.x << " \t y: " << d->pc.y << std::endl;
+    
+    if (!loadHardness(d)) return false;
+    
+    int numRooms = loadNumRooms(d);
+    std::cout << "Number of rooms: " << numRooms << std::endl;
+    if (!loadRooms(d, numRooms)) return false;
+
+    int numUpStairs = loadNumUpStairs(d);
+    // std::cout << "Number of up stairs: " << d->numUpStairs << std::endl;
+    if (!loadUpStairs(d, numUpStairs)) return false;
+    
+    int numDownStairs = loadNumDownStairs(d);
+    // std::cout << "Number of down stairs: " << d->numDownStairs << std::endl;
+    if (!loadDownStairs(d, numDownStairs)) return false;
+    
+    fillInCorridors(d);
+    
+    d.placeCharacter(
+        d.getPC(), 
+        d.getPC().getPosition().getX(), 
+        d.getPC().getPosition().getY()
+    );
+    
+    fclose(f);
+    return true;
+}
+
 std::string SaveLoad::loadMarker()
 {
     char marker[13]; // 12 bytes + 1 for null terminator
@@ -201,54 +250,5 @@ bool SaveLoad::fillInCorridors(Dungeon& d)
         }
     }
     
-    return true;
-}
-
-bool SaveLoad::load(Dungeon &d)
-{
-    f = fopen(dungeonFile.c_str(), "rb");
-
-    std::cout << "Home: " << home << std::endl;
-    std::cout << "Dungeon file: " << dungeonFile << std::endl;
-    
-    std::string marker = loadMarker();
-    std::cout << "Marker: " << marker << std::endl;
-    if (marker != EXPECTED_MARKER) {
-        std::cerr << "Error: Invalid marker" << std::endl;
-        return false;
-    }
-    
-    uint32_t version = loadVersion();
-    std::cout << "Version: " << version << std::endl;
-    
-    uint32_t size = loadSize();
-    std::cout << "Size: " << size << std::endl;
-    
-    if (!loadPC(d)) return false;
-    // std::cout << "PC: x: " << d->pc.x << " \t y: " << d->pc.y << std::endl;
-    
-    if (!loadHardness(d)) return false;
-    
-    int numRooms = loadNumRooms(d);
-    std::cout << "Number of rooms: " << numRooms << std::endl;
-    if (!loadRooms(d, numRooms)) return false;
-
-    int numUpStairs = loadNumUpStairs(d);
-    // std::cout << "Number of up stairs: " << d->numUpStairs << std::endl;
-    if (!loadUpStairs(d, numUpStairs)) return false;
-    
-    int numDownStairs = loadNumDownStairs(d);
-    // std::cout << "Number of down stairs: " << d->numDownStairs << std::endl;
-    if (!loadDownStairs(d, numDownStairs)) return false;
-    
-    fillInCorridors(d);
-    
-    d.placeCharacter(
-        d.getPC(), 
-        d.getPC().getPosition().getX(), 
-        d.getPC().getPosition().getY()
-    );
-    
-    fclose(f);
     return true;
 }

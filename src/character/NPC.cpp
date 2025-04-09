@@ -14,7 +14,7 @@ NPC::NPC(Point position, Cell cell, bool isAlive, int ID){
     tunneling = rand() % 2, erratic = rand() % 2;
 
     // intelligent = 1, telepathy = 1;
-    // tunneling = 1, erratic = 0;
+    // tunneling = 1, erratic = 1;
 
     speed = (rand() % 16) + 5;
 

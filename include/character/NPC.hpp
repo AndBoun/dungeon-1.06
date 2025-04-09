@@ -5,20 +5,29 @@
 #ifndef NPC_HPP
 #define NPC_HPP
 #include <character/Character.hpp>
+#include <string>
+#include <vector>
+#include <set>
+#include <optional>
 
 class NPC : public Character
 {
-protected:
+public:
     int intelligent; // 0 or 1
     int telepathy; // 0 or 1
     int tunneling; // 0 or 1
     int erratic; // 0 or 1
     Point pcPosition; // Position of the PC
 
-public:
+
+
+    
+
+
     NPC();
     NPC(Point position, Cell cell, bool isAlive, int ID);
     ~NPC();
+
 
     // Getters
     int getIntelligent() const { return intelligent; }
@@ -29,7 +38,6 @@ public:
 
     // Setters
     void setPCPosition(const Point& position) { pcPosition = position; }
-
 };
 
 #endif

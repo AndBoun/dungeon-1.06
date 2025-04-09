@@ -5,10 +5,17 @@
 #include <io/SaveLoad.hpp>
 #include <iostream>
 
-SaveLoad::SaveLoad()
+SaveLoad::SaveLoad() : f(nullptr)
 {
     home = getenv("HOME");
     dungeonFile = home + "/.rlg327/dungeon";
+    dungeonFileLength = dungeonFile.length();
+}
+
+SaveLoad::SaveLoad(std::string str) : f(nullptr)
+{
+    home = getenv("HOME");
+    dungeonFile = home + "/.rlg327/" + str;
     dungeonFileLength = dungeonFile.length();
 }
 

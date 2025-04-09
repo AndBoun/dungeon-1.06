@@ -188,6 +188,11 @@ int ui::get_input(Dungeon &d) {
                 if (teleport(d)) result = 1;
                 break;
 
+
+            case 'q':
+                render_top_bar(COLOR_ERROR_ID, "Press 'shift + q' to quit");
+                break;
+                
             case 'Q':
                 destroy_ncurses();
                 printf("Game terminated by user\n");
